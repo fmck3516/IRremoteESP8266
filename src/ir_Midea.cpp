@@ -496,6 +496,20 @@ bool IRMideaAC::getQuiet(void) const {
     return _Quiet;
 }
 
+/// Get the Beep setting of the A/C: The indoor unit will make a beep if it receives a command with the setting enabled.
+/// @return true, the setting is on. false, the setting is off.
+bool IRMideaAC::getBeep(void) const {
+  // Looks wrong, but this is correct. The name BeepDisable is misleading: it should be called BeepEnable.
+  return _.BeepDisable;
+}
+
+/// Set the Beep setting of the A/C: The indoor unit will make a beep if it receives a command with the setting enabled.
+/// @param[in] on true, the setting is on. false, the setting is off.
+void IRMideaAC::setBeep(const bool on) {
+  // Looks wrong, but this is correct. The name BeepDisable is misleading: it should be called BeepEnable.
+  _.BeepDisable = on;
+}
+
 /// Calculate the checksum for a given state.
 /// @param[in] state The value to calc the checksum of.
 /// @return The calculated checksum value.
@@ -740,6 +754,8 @@ String IRMideaAC::toString(void) {
   result += addToggleToString(getLightToggle(), kLightStr);
   result += addToggleToString(getCleanToggle(), kCleanStr);
   result += addToggleToString(get8CHeatToggle(), k8CHeatStr);
+  // FMCK3516: no idea why I need the irutils:: prefix here
+  result += irutils::addBeepToString(getBeep());
   return result;
 }
 

@@ -28,7 +28,16 @@ INCLUDES = -I$(USER_DIR) -I.
 CPPFLAGS += -isystem $(GTEST_DIR)/include -isystem $(GMOCK_DIR)/include -DUNIT_TEST -D_IR_LOCALE_=en-AU
 
 # Flags passed to the C++ compiler.
-CXXFLAGS += -g -Wall -Wextra -Werror -pthread -std=gnu++11
+#
+# FMCK3516: I had to add 
+#
+# 	-Wno-parentheses 
+# 	-Wno-unused-const-variable 
+#	-Wno-deprecated-declarations 
+#	-Wno-literal-conversion
+#
+# to successfully run `make run_tests` on my Mac Book M2 2022 using Visual Studio Code & PlatformIO
+CXXFLAGS += -g -Wall -Wextra -Werror -pthread -std=gnu++11 -Wno-parentheses -Wno-unused-const-variable -Wno-deprecated-declarations -Wno-literal-conversion
 
 # Google Test libraries
 GTEST_LIBS = gtest.a gtest_main.a gmock.a gmock_main.a
