@@ -1531,7 +1531,7 @@ TEST(TestIRac, Midea) {
       "Type: 1 (Command), Power: On, Mode: 1 (Dry), Celsius: On, "
       "Temp: 27C/80F, On Timer: Off, Off Timer: Off, Fan: 2 (Medium), "
       "Sleep: On, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -";
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On";
 
   ac.begin();
   irac.midea(&ac,

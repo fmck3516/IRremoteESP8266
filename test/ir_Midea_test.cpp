@@ -449,7 +449,7 @@ TEST(TestMideaACClass, HumanReadableOutput) {
       "Type: 1 (Command), Power: On, Mode: 2 (Auto), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
   ac.off();
   ac.setTemp(25, true);
   ac.setFan(kMideaACFanHigh);
@@ -459,20 +459,20 @@ TEST(TestMideaACClass, HumanReadableOutput) {
       "Type: 1 (Command), Power: Off, Mode: 1 (Dry), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 3 (High), "
       "Sleep: On, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
   ac.setUseCelsius(true);
   EXPECT_EQ(
       "Type: 1 (Command), Power: Off, Mode: 1 (Dry), Celsius: On, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 3 (High), "
       "Sleep: On, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
 
   ac.setRaw(0xA19867FFFF7E);
   EXPECT_EQ(
       "Type: 1 (Command), Power: On, Mode: 0 (Cool), Celsius: Off, "
       "Temp: 21C/69F, On Timer: Off, Off Timer: Off, Fan: 3 (High), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
 }
 
 // Tests for decodeMidea().
@@ -682,7 +682,7 @@ TEST(TestDecodeMidea, DecodeRealExample) {
       "Type: 1 (Command), Power: On, Mode: 2 (Auto), Celsius: Off, "
       "Temp: 18C/65F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -",
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On",
       IRAcUtils::resultAcToString(&irsend.capture));
   stdAc::state_t r, p;
   ASSERT_TRUE(IRAcUtils::decodeToState(&irsend.capture, &r, &p));
@@ -734,7 +734,7 @@ TEST(TestMideaACClass, CelsiusRemoteTemp) {
       "Type: 1 (Command), Power: On, Mode: 0 (Cool), Celsius: On, "
       "Temp: 17C/62F, On Timer: Off, Off Timer: Off, Fan: 1 (Low), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
   ac.setRaw(on_cool_low_17c);
   EXPECT_EQ(17, ac.getTemp(true));
   EXPECT_EQ(62, ac.getTemp(false));
@@ -742,7 +742,7 @@ TEST(TestMideaACClass, CelsiusRemoteTemp) {
       "Type: 1 (Command), Power: On, Mode: 0 (Cool), Celsius: On, "
       "Temp: 17C/62F, On Timer: Off, Off Timer: Off, Fan: 1 (Low), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
   ac.setTemp(17, true);
   EXPECT_EQ(17, ac.getTemp(true));
   EXPECT_EQ(62, ac.getTemp(false));
@@ -753,7 +753,7 @@ TEST(TestMideaACClass, CelsiusRemoteTemp) {
       "Type: 1 (Command), Power: On, Mode: 0 (Cool), Celsius: On, "
       "Temp: 30C/86F, On Timer: Off, Off Timer: Off, Fan: 1 (Low), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
 }
 
 // https://github.com/crankyoldgit/IRremoteESP8266/issues/819
@@ -767,17 +767,17 @@ TEST(TestMideaACClass, SwingV) {
       "Type: 1 (Command), Power: On, Mode: 2 (Auto), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): Toggle, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
   ac.setSwingVToggle(false);
   ASSERT_FALSE(ac.getSwingVToggle());
   EXPECT_EQ(
       "Type: 1 (Command), Power: On, Mode: 2 (Auto), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
   ac.setRaw(kMideaACToggleSwingV);
   EXPECT_EQ("Type: 2 (Special), Swing(V): Toggle, Econo: -, "
-            "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -",
+            "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On",
             ac.toString());
 }
 
@@ -792,17 +792,17 @@ TEST(TestMideaACClass, Econo) {
       "Type: 1 (Command), Power: On, Mode: 2 (Auto), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: Toggle, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
   ac.setEconoToggle(false);
   ASSERT_FALSE(ac.getEconoToggle());
   EXPECT_EQ(
       "Type: 1 (Command), Power: On, Mode: 2 (Auto), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
   ac.setRaw(kMideaACToggleEcono);
   EXPECT_EQ("Type: 2 (Special), Swing(V): -, Econo: Toggle, "
-            "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -",
+            "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On",
             ac.toString());
 }
 
@@ -816,7 +816,7 @@ TEST(TestMideaACClass, Turbo) {
       "Type: 1 (Command), Power: On, Mode: 2 (Auto), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: Toggle, Quiet: Off, Light: -, Clean: -, 8C Heat: -",
+      "Turbo: Toggle, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On",
       ac.toString());
   ac.setTurboToggle(false);
   ASSERT_FALSE(ac.getTurboToggle());
@@ -824,11 +824,11 @@ TEST(TestMideaACClass, Turbo) {
       "Type: 1 (Command), Power: On, Mode: 2 (Auto), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -",
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On",
       ac.toString());
   ac.setRaw(kMideaACToggleTurbo);
   EXPECT_EQ("Type: 2 (Special), Swing(V): -, Econo: -, "
-            "Turbo: Toggle, Quiet: Off, Light: -, Clean: -, 8C Heat: -",
+            "Turbo: Toggle, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On",
             ac.toString());
 }
 
@@ -842,7 +842,7 @@ TEST(TestMideaACClass, Light) {
       "Type: 1 (Command), Power: On, Mode: 2 (Auto), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: Toggle, Clean: -, 8C Heat: -",
+      "Turbo: -, Quiet: Off, Light: Toggle, Clean: -, 8C Heat: -, Beep: On",
       ac.toString());
   ac.setLightToggle(false);
   ASSERT_FALSE(ac.getLightToggle());
@@ -850,11 +850,11 @@ TEST(TestMideaACClass, Light) {
       "Type: 1 (Command), Power: On, Mode: 2 (Auto), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -",
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On",
       ac.toString());
   ac.setRaw(kMideaACToggleLight);
   EXPECT_EQ("Type: 2 (Special), Swing(V): -, Econo: -, "
-            "Turbo: -, Quiet: Off, Light: Toggle, Clean: -, 8C Heat: -",
+            "Turbo: -, Quiet: Off, Light: Toggle, Clean: -, 8C Heat: -, Beep: On",
             ac.toString());
 }
 
@@ -868,7 +868,7 @@ TEST(TestMideaACClass, Clean) {
       "Type: 1 (Command), Power: On, Mode: 2 (Auto), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: Toggle, 8C Heat: -",
+      "Turbo: -, Quiet: Off, Light: -, Clean: Toggle, 8C Heat: -, Beep: On",
       ac.toString());
   ac.setCleanToggle(false);
   ASSERT_FALSE(ac.getCleanToggle());
@@ -876,11 +876,11 @@ TEST(TestMideaACClass, Clean) {
       "Type: 1 (Command), Power: On, Mode: 2 (Auto), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -",
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On",
       ac.toString());
   ac.setRaw(kMideaACToggleSelfClean);
   EXPECT_EQ("Type: 2 (Special), Swing(V): -, Econo: -, "
-            "Turbo: -, Quiet: Off, Light: -, Clean: Toggle, 8C Heat: -",
+            "Turbo: -, Quiet: Off, Light: -, Clean: Toggle, 8C Heat: -, Beep: On",
             ac.toString());
 }
 
@@ -898,7 +898,7 @@ TEST(TestMideaACClass, FreezeProtectionAKA8CHeat) {
       "Type: 1 (Command), Power: On, Mode: 3 (Heat), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: Toggle",
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: Toggle, Beep: On",
       ac.toString());
   ac.set8CHeatToggle(false);
   ASSERT_FALSE(ac.get8CHeatToggle());
@@ -906,11 +906,11 @@ TEST(TestMideaACClass, FreezeProtectionAKA8CHeat) {
       "Type: 1 (Command), Power: On, Mode: 3 (Heat), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -",
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On",
       ac.toString());
   ac.setRaw(kMideaACToggle8CHeat);
   EXPECT_EQ("Type: 2 (Special), Swing(V): -, Econo: -, "
-            "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: Toggle",
+            "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: Toggle, Beep: On",
             ac.toString());
 }
 
@@ -924,7 +924,7 @@ TEST(TestMideaACClass, Quiet) {
       "Type: 1 (Command), Power: On, Mode: 2 (Auto), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: On, Light: -, Clean: -, 8C Heat: -",
+      "Turbo: -, Quiet: On, Light: -, Clean: -, 8C Heat: -, Beep: On",
       ac.toString());
   ac.setQuiet(false);
   ASSERT_FALSE(ac.getQuiet());
@@ -932,14 +932,14 @@ TEST(TestMideaACClass, Quiet) {
       "Type: 1 (Command), Power: On, Mode: 2 (Auto), Celsius: Off, "
       "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
   ac.setRaw(kMideaACQuietOn);
   EXPECT_EQ("Type: 2 (Special), Swing(V): -, Econo: -, "
-            "Turbo: -, Quiet: On, Light: -, Clean: -, 8C Heat: -",
+            "Turbo: -, Quiet: On, Light: -, Clean: -, 8C Heat: -, Beep: On",
             ac.toString());
   ac.setRaw(kMideaACQuietOff);
   EXPECT_EQ("Type: 2 (Special), Swing(V): -, Econo: -, "
-            "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -",
+            "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On",
             ac.toString());
 }
 
@@ -1157,7 +1157,7 @@ TEST(TestDecodeMidea, Issue1318_self_decode) {
       "Type: 4 (Follow), Power: On, Mode: 3 (Heat), Celsius: On, "
       "Temp: 24C/75F, SensorTemp: 24C/75F, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -",
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: Off",
       IRAcUtils::resultAcToString(&irsend.capture));
   EXPECT_EQ(
       "f38000d50"
@@ -1236,7 +1236,7 @@ TEST(TestMideaACClass, SensorTemp) {
       "Type: 4 (Follow), Power: On, Mode: 2 (Auto), Celsius: On, "
       "Temp: 23C/73F, SensorTemp: 0C/32F, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: Off", ac.toString());
   ac.setRaw(0xA482467F134E);  // 18C
   EXPECT_EQ(18, ac.getSensorTemp(true));
   EXPECT_TRUE(ac.getEnableSensorTemp());
@@ -1244,7 +1244,7 @@ TEST(TestMideaACClass, SensorTemp) {
       "Type: 4 (Follow), Power: On, Mode: 2 (Auto), Celsius: On, "
       "Temp: 23C/73F, SensorTemp: 18C/64F, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: Off", ac.toString());
   ac.setRaw(0xA482467F266B);  // 37C
   EXPECT_EQ(37, ac.getSensorTemp(true));
   EXPECT_TRUE(ac.getEnableSensorTemp());
@@ -1252,7 +1252,7 @@ TEST(TestMideaACClass, SensorTemp) {
       "Type: 4 (Follow), Power: On, Mode: 2 (Auto), Celsius: On, "
       "Temp: 23C/73F, SensorTemp: 37C/98F, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: Off", ac.toString());
   ac.setRaw(0xA482607F2B43);  // 74F
   EXPECT_EQ(74, ac.getSensorTemp(false));
   EXPECT_TRUE(ac.getEnableSensorTemp());
@@ -1260,7 +1260,7 @@ TEST(TestMideaACClass, SensorTemp) {
       "Type: 4 (Follow), Power: On, Mode: 2 (Auto), Celsius: Off, "
       "Temp: 17C/62F, SensorTemp: 23C/74F, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: Off", ac.toString());
 }
 
 TEST(TestMideaACClass, MessageType) {
@@ -1292,7 +1292,7 @@ TEST(TestMideaACClass, ConstructKnownMessage) {
       "Type: 4 (Follow), Power: On, Mode: 2 (Auto), Celsius: On, "
       "Temp: 23C/73F, SensorTemp: 25C/77F, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: Off", ac.toString());
   EXPECT_EQ(followme_25C, ac.getRaw());
 }
 
@@ -1307,7 +1307,7 @@ TEST(TestMideaACClass, OnTimer) {
       "Type: 1 (Command), Power: On, Mode: 3 (Heat), Celsius: On, "
       "Temp: 30C/86F, On Timer: 07:00, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
   ac.setOnTimer(0);  // Disable / Timer off.
   EXPECT_FALSE(ac.isOnTimerEnabled());
   EXPECT_EQ(kMideaACTypeCommand, ac.getType());
@@ -1319,7 +1319,7 @@ TEST(TestMideaACClass, OnTimer) {
       "Type: 1 (Command), Power: On, Mode: 3 (Heat), Celsius: On, "
       "Temp: 30C/86F, On Timer: 03:30, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
   // Limit to max time.
   ac.setOnTimer(25 * 60);  // 25h
   EXPECT_TRUE(ac.isOnTimerEnabled());
@@ -1329,7 +1329,7 @@ TEST(TestMideaACClass, OnTimer) {
       "Type: 1 (Command), Power: On, Mode: 3 (Heat), Celsius: On, "
       "Temp: 30C/86F, On Timer: 24:00, Off Timer: Off, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
 }
 
 
@@ -1344,7 +1344,7 @@ TEST(TestMideaACClass, OffTimer) {
       "Type: 1 (Command), Power: On, Mode: 3 (Heat), Celsius: On, "
       "Temp: 30C/86F, On Timer: Off, Off Timer: 00:30, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
   ac.setOffTimer(0);  // Disable / Timer off.
   EXPECT_FALSE(ac.isOffTimerEnabled());
   EXPECT_EQ(kMideaACTypeCommand, ac.getType());
@@ -1356,7 +1356,7 @@ TEST(TestMideaACClass, OffTimer) {
       "Type: 1 (Command), Power: On, Mode: 3 (Heat), Celsius: On, "
       "Temp: 30C/86F, On Timer: Off, Off Timer: 03:30, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
   // Limit to max time.
   ac.setOffTimer(25 * 60);  // 25h
   EXPECT_TRUE(ac.isOffTimerEnabled());
@@ -1366,7 +1366,7 @@ TEST(TestMideaACClass, OffTimer) {
       "Type: 1 (Command), Power: On, Mode: 3 (Heat), Celsius: On, "
       "Temp: 30C/86F, On Timer: Off, Off Timer: 24:00, Fan: 0 (Auto), "
       "Sleep: Off, Swing(V): -, Econo: -, "
-      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -", ac.toString());
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", ac.toString());
 }
 
 // Ref: https://github.com/crankyoldgit/IRremoteESP8266/issues/1318#issuecomment-725406813
@@ -1384,7 +1384,7 @@ TEST(TestMideaACClass, SendingSwingV) {
     "Type: 1 (Command), Power: On, Mode: 2 (Auto), Celsius: Off, "
     "Temp: 25C/77F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), "
     "Sleep: Off, Swing(V): -, Econo: -, "
-    "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -",
+    "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On",
     IRAcUtils::resultAcToString(&ac._irsend.capture));
   // Decode the second/following message which should be the swing toggle.
   EXPECT_TRUE(irrecv.decodeMidea(&ac._irsend.capture, 201));
@@ -1392,7 +1392,7 @@ TEST(TestMideaACClass, SendingSwingV) {
   EXPECT_EQ(kMideaBits, ac._irsend.capture.bits);
   EXPECT_EQ(
     "Type: 2 (Special), Swing(V): Toggle, Econo: -, "
-    "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -",
+    "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On",
     IRAcUtils::resultAcToString(&ac._irsend.capture));
 }
 
@@ -1408,7 +1408,7 @@ TEST(TestMideaACClass, Issue1342) {
     "Type: 1 (Command), Power: On, Mode: 3 (Heat), Celsius: Off, "
     "Temp: 21C/70F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), Sleep: Off, "
     "Swing(V): -, Econo: -, Turbo: -, Quiet: Off, "
-    "Light: -, Clean: -, 8C Heat: -",
+    "Light: -, Clean: -, 8C Heat: -, Beep: On",
     ac.toString());
   ac.stateReset();  // Remove any existing info so we can build from scratch.
   ASSERT_NE(0xA1A368FFFF45, ac.getRaw());
@@ -1427,7 +1427,95 @@ TEST(TestMideaACClass, Issue1342) {
     "Type: 1 (Command), Power: On, Mode: 3 (Heat), Celsius: Off, "
     "Temp: 21C/70F, On Timer: Off, Off Timer: Off, Fan: 0 (Auto), Sleep: Off, "
     "Swing(V): -, Econo: -, Turbo: -, Quiet: Off, "
-    "Light: -, Clean: -, 8C Heat: -",
+    "Light: -, Clean: -, 8C Heat: -, Beep: On",
     ac.toString());
   EXPECT_EQ(0xA1A368FFFF45, ac.getRaw());
+}
+
+
+// Tests for controlling the beep state.
+TEST(TestMideaACClass, Beep) {
+  IRMideaAC midea(0);
+  midea.begin();
+  
+  midea.stateReset();  
+  midea.setRaw(0xA1886DFFFF6D); // code recorded using Mr Cool 4th gen remote control RG10A4(D1)/BGEFU1
+
+  EXPECT_TRUE(midea.getBeep());
+  EXPECT_EQ(
+      "Type: 1 (Command), Power: On, Mode: 0 (Cool), Celsius: Off, "
+      "Temp: 24C/75F, On Timer: Off, Off Timer: Off, Fan: 1 (Low), "
+      "Sleep: Off, Swing(V): -, Econo: -, "
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", midea.toString());
+
+  midea.setBeep(false);
+
+  EXPECT_EQ("A1886D7FFFED", uint64ToString(midea.getRaw(), 16)); // TODO: verify code on Mr Cool 4th gen
+  EXPECT_FALSE(midea.getBeep());  
+  EXPECT_EQ(
+      "Type: 1 (Command), Power: On, Mode: 0 (Cool), Celsius: Off, "
+      "Temp: 24C/75F, On Timer: Off, Off Timer: Off, Fan: 1 (Low), "
+      "Sleep: Off, Swing(V): -, Econo: -, "
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: Off", midea.toString());
+
+  midea.stateReset();  
+  midea.setRaw(0xA1906DFFFF7D); // code recorded using Mr Cool 4th gen remote control RG10A4(D1)/BGEFU1
+
+  EXPECT_TRUE(midea.getBeep());
+  EXPECT_EQ(
+      "Type: 1 (Command), Power: On, Mode: 0 (Cool), Celsius: Off, "
+      "Temp: 24C/75F, On Timer: Off, Off Timer: Off, Fan: 2 (Medium), "
+      "Sleep: Off, Swing(V): -, Econo: -, "
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", midea.toString());
+
+  midea.setBeep(false);
+  
+  EXPECT_EQ("A1906D7FFFFD", uint64ToString(midea.getRaw(), 16)); // TODO: verify code on Mr Cool 4th gen
+  EXPECT_FALSE(midea.getBeep());  
+  EXPECT_EQ(
+      "Type: 1 (Command), Power: On, Mode: 0 (Cool), Celsius: Off, "
+      "Temp: 24C/75F, On Timer: Off, Off Timer: Off, Fan: 2 (Medium), "
+      "Sleep: Off, Swing(V): -, Econo: -, "
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: Off", midea.toString());
+
+  midea.stateReset();  
+  midea.setRaw(0xA18C7EFFFF73); // code recorded using Mr Cool 4th gen remote control RG10A4(D1)/BGEFU1 
+
+  EXPECT_TRUE(midea.getBeep());
+  EXPECT_EQ(
+      "Type: 1 (Command), Power: On, Mode: 4 (Fan), Celsius: Off, "
+      "Temp: 33C/92F, On Timer: Off, Off Timer: Off, Fan: 1 (Low), "
+      "Sleep: Off, Swing(V): -, Econo: -, "
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", midea.toString());
+
+  midea.setBeep(false);
+
+  EXPECT_EQ("A18C7E7FFFF3", uint64ToString(midea.getRaw(), 16)); // TODO: verify code on Mr Cool 4th gen
+  EXPECT_FALSE(midea.getBeep());  
+  EXPECT_EQ(
+      "Type: 1 (Command), Power: On, Mode: 4 (Fan), Celsius: Off, "
+      "Temp: 33C/92F, On Timer: Off, Off Timer: Off, Fan: 1 (Low), "
+      "Sleep: Off, Swing(V): -, Econo: -, "
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: Off", midea.toString());
+            
+  midea.stateReset();  
+  midea.setRaw(0xA10C7EFFFFF3); // code recorded using Mr Cool 4th gen remote control RG10A4(D1)/BGEFU1 
+
+  EXPECT_TRUE(midea.getBeep());
+  EXPECT_EQ(
+      "Type: 1 (Command), Power: Off, Mode: 4 (Fan), Celsius: Off, "
+      "Temp: 33C/92F, On Timer: Off, Off Timer: Off, Fan: 1 (Low), "
+      "Sleep: Off, Swing(V): -, Econo: -, "
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: On", midea.toString());
+
+  midea.setBeep(false);
+
+  EXPECT_EQ("A10C7E7FFF0B", uint64ToString(midea.getRaw(), 16)); // TODO: verify code on Mr Cool 4th gen
+  EXPECT_FALSE(midea.getBeep());  
+  EXPECT_EQ(
+      "Type: 1 (Command), Power: Off, Mode: 4 (Fan), Celsius: Off, "
+      "Temp: 33C/92F, On Timer: Off, Off Timer: Off, Fan: 1 (Low), "
+      "Sleep: Off, Swing(V): -, Econo: -, "
+      "Turbo: -, Quiet: Off, Light: -, Clean: -, 8C Heat: -, Beep: Off", midea.toString());      
+    
 }
